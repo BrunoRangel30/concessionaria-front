@@ -1,0 +1,25 @@
+# .gitignore
+
+# Arquivos e pastas do sistema
+.DS_Store
+node_modules/
+dist/
+
+# Arquivos temporários
+*.log
+*.log.*
+*.*.swp
+*~
+
+# Arquivos de configuração
+.env
+
+
+# Dependendo do seu editor, você pode querer ignorar diretórios específicos
+.idea/
+.vscode/
+
+# Dependendo do seu ambiente de desenvolvimento, você pode querer ignorar
+# arquivos específicos gerados durante o desenvolvimento
+npm-debug.log
+yarn-error.log
