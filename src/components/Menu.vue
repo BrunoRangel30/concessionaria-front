@@ -1,7 +1,8 @@
 <template>
    
       <v-app-bar app
-      style=" background-color: rgba(0, 0, 0, 0); box-shadow: none"
+         :class="{ 'menu-inicial': !isScrolled, 'menu-rolagem': isScrolled }"
+    
        >
         <v-container class="custom-toolbar-content">
           <v-row align="center">
@@ -70,17 +71,21 @@
       return {
         drawer: true, // Iniciar visível em telas maiores
         isSmallScreen: false,
+        isScrolled: false,
       };
     },
     
     methods: {
-      toggleDrawer() {
-        this.drawer = !this.drawer;
-      },
-      navigateTo(route) {
-        this.$router.push(route);
-        this.drawer = false;
-      },
+        toggleDrawer() {
+          this.drawer = !this.drawer;
+        },
+        navigateTo(route) {
+          this.$router.push(route);
+          this.drawer = false;
+        },
+        handleScroll() {
+          this.isScrolled = window.scrollY > 0;
+       }
     },
    
     mounted() {
@@ -90,16 +95,55 @@
       window.addEventListener('resize', () => {
         this.isSmallScreen = window.innerWidth <= 992; // Atualize o valor do limite conforme necessário
       });
+      window.addEventListener('scroll', this.handleScroll);
+    },
+    destroyed() {
+      window.removeEventListener('scroll', this.handleScroll);
     },
   };
   </script>
   
   <style scoped>
 
-  .logo {
-        max-width: 100%; /* A imagem não será maior que 100% da largura do contêiner pai */
-        max-height: 120px; /* Altura máxima da imagem */
-        object-fit: contain;
+ 
+  .menu-inicial{
+    background-color: rgba(0, 0, 0, 0) !important;
+    box-shadow: none !important;
+  }
+  .menu-inicial .logo{
+      max-width: 100%; /* A imagem não será maior que 100% da largura do contêiner pai */
+      max-height: 120px; /* Altura máxima da imagem */
+      object-fit: contain;
+  }
+
+  .menu-inicial ::v-deep .v-toolbar__content {
+      height: 20vh !important;
+      margin-top: 20px
+  }
+
+  .menu-rolagem{
+    background-color: rgba(64, 64, 64, 0.8) !important;
+    box-shadow: none !important;
+  }
+  .menu-rolagem logo{
+    background-color: rgba(64, 64, 64, 0.8) !important;
+    box-shadow: none !important;
+  }
+
+  /************************Menu rolagem ***********************/
+  .menu-rolagem{
+    background-color: rgba(64, 64, 64, 1) !important;
+    box-shadow: none !important;
+  }
+  .menu-rolagem .logo{
+    max-width: 100%; 
+    max-height: 90px;
+    object-fit: contain;
+    margin: 2%
+  }
+  .menu-rolagem ::v-deep .v-toolbar__content {
+        height: 15vh !important;
+       
   }
   
   @media only screen and (max-width: 767px) {
@@ -109,10 +153,10 @@
   }
   /* Estilos específicos para o componente Menu */
      @media (min-width: 600px) {   
-        ::v-deep .v-toolbar__content {
+      /*  ::v-deep .v-toolbar__content {
              height: 20vh !important;
              margin-top: 20px
-         }
+         }*/
     }
 
   </style>

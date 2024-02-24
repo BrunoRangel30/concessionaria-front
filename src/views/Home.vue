@@ -47,20 +47,20 @@
                 </v-col>
             </v-row>
         </v-container>
-        <v-container >
+        <v-container class="mb-5">
             <v-row justify="center">
                 <v-row justify="end">
-                    <v-btn @click="setViewMode('single')" icon>
-                    <v-icon>mdi-view-dashboard</v-icon>
+                    <v-btn class="mr-3" @click="setViewMode('single')" icon>
+                        <span class="mdi mdi-rectangle"></span>
+                    </v-btn>
+                    <v-btn class="mr-3" @click="setViewMode('grid-2')" icon>
+                        <v-icon>mdi-view-grid</v-icon>
+                    </v-btn>
+                    <v-btn class="mr-3" @click="setViewMode('grid-3')" icon>
+                        <v-icon>mdi-view-module</v-icon>
                     </v-btn>
                     <v-btn @click="setViewMode('grid-4')" icon>
-                    <v-icon>mdi-view-grid</v-icon>
-                    </v-btn>
-                    <v-btn @click="setViewMode('grid-3')" icon>
-                    <v-icon>mdi-view-module</v-icon>
-                    </v-btn>
-                    <v-btn @click="setViewMode('grid-2')" icon>
-                    <v-icon>mdi-view-quilt</v-icon>
+                        <span class="mdi mdi-view-grid-plus"></span>
                     </v-btn>
                 </v-row>
             </v-row>
@@ -74,6 +74,7 @@
   import MenuNav from '@/components/Menu.vue';
   import Carrossel from '@/components/Carrossel.vue';
   import CarCard from '@/components/CardCar.vue';
+  import axios from 'axios';
   
   export default {
         components: {
@@ -90,71 +91,7 @@
                 brands: ['Brand 1', 'Brand 2', 'Brand 3'],
                 models: ['Model 1', 'Model 2', 'Model 3'],
                 prices: ['Low', 'Medium', 'High'],
-                cars: [
-                    {
-                        id: 1,
-                        name: 'Carro A',
-                        brand: 'Marca 1',
-                        year: 2022,
-                        version: 'Versão 1',
-                        price: 25000,
-                        imageUrl: '../src/assets/img/carro4.jpeg'
-                    },
-                    {
-                        id: 2,
-                        name: 'Carro B',
-                        brand: 'Marca 2',
-                        year: 2021,
-                        version: 'Versão 2',
-                        price: 30000,
-                        imageUrl: '../src/assets/img/carro5.jpeg'
-                    },
-                    {
-                        id: 3,
-                        name: 'Carro C',
-                        brand: 'Marca 1',
-                        year: 2020,
-                        version: 'Versão 3',
-                        price: 20000,
-                        imageUrl: '../src/assets/img/carro5.jpeg'
-                    },
-                    {
-                        id: 4,
-                        name: 'Carro d',
-                        brand: 'Marca 2',
-                        year: 2020,
-                        version: 'Versão 4',
-                        price: 20000,
-                        imageUrl: '../src/assets/img/carro4.jpeg'
-                    },
-                    {
-                        id: 5,
-                        name: 'Carro e',
-                        brand: 'Marca 5',
-                        year: 2020,
-                        version: 'Versão 4',
-                        price: 20000,
-                        imageUrl: '../src/assets/img/carro4.jpeg'
-                    },
-                    {
-                        id: 6,
-                        name: 'Carro 6',
-                        brand: 'Marca 6',
-                        year: 2020,
-                        version: 'Versão 4',
-                        price: 20000,
-                        imageUrl: '../src/assets/img/carro4.jpeg'
-                    },
-                    {
-                        id: 7,
-                        name: 'Carro 7',
-                        brand: 'Marca 7',
-                        year: 2020,
-                        version: 'Versão 7',
-                        price: 20000,
-                        imageUrl: '../src/assets/img/carro4.jpeg'
-                    },
-                 ],
+                cars: [],
                  viewMode: 'single' // Defina isso com base na visualização do usuário
             };
         },
@@ -180,7 +117,17 @@
             setViewMode(mode) {
                  this.viewMode = mode;
             }
-        }
+        },
+        mounted() {
+            axios.get('https://www.gois.inf.br/easycar/feed/estoque_filter.php?loja=18352')
+            .then(response => {
+                this.cars = response.data;
+                //console.log(this.cars,'card')
+            })
+            .catch(error => {
+                console.error('Erro ao buscar dados do servidor:', error);
+            });
+  }
 }
   </script>
   

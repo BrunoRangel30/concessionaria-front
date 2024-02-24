@@ -1,158 +1,97 @@
 <!-- src/components/CarCard.vue -->
 <template>
   <v-container>
-      <template v-if="viewMode === 'single'">
-      <v-row v-for="car in cars" :key="car.id">
-        <v-col cols="6">
-          <!-- Conteúdo da primeira coluna (imagem) -->
-          <v-img :src="car.imageUrl" height="200"></v-img>
-        </v-col>
-
-        <v-col cols="6">
-          <!-- Conteúdo da segunda coluna (descrição) -->
-          <v-card-subtitle class="car-title">{{ car.name }}</v-card-subtitle>
-          <v-card-subtitle class="car-brand">{{ car.brand }}</v-card-subtitle>
-          <v-card-subtitle class="car-year">{{ car.year }}</v-card-subtitle>
-          <v-card-subtitle class="car-version">{{ car.version }}</v-card-subtitle>
-          <v-card-subtitle class="car-price">${{ car.price }}</v-card-subtitle>
-        </v-col>
-      </v-row>
+    <template v-if="viewMode === 'single'">
+        <v-row v-for="car in cars" :key="car.id" >
+          <v-col cols="6">
+            <!-- Conteúdo da primeira coluna (imagem) -->
+            <v-img class="img-single" :src="car.fotos.foto[0]" contain  height="auto"></v-img>
+          </v-col>
+          <v-col cols="6" class="row-single" >
+            <v-row style="background-color:rgba(150, 150, 150, 0.8);">
+              <v-col cols="6"  class="inf-esq" >
+                <v-card-title>{{ car.modelo }}</v-card-title>
+                <v-card-subtitle>{{ car.marca }}</v-card-subtitle>
+              </v-col>
+              <!-- Segunda coluna com ano, versão e preço -->
+              <v-col cols="6" class="inf-dir-single">
+                 <v-card-subtitle><span class="label-ano">Ano :</span> {{ car.anoFabricacao }}</v-card-subtitle>
+                <v-card-subtitle>{{ car.versao }}</v-card-subtitle>
+                <v-card-subtitle class="inf-dir-preco">{{ car.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</v-card-subtitle>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
     </template>
     <!--Grid 2-->
     <template v-if="viewMode === 'grid-2'">
-      <v-row v-for="(car, index) in cars" :key="index">
-        <!-- Verifica se é uma linha par -->
-        <v-col v-if="index % 2 === 0" cols="12">
-          <v-row>
-            <!-- Card 1 -->
-            <v-col cols="6" v-if="index < cars.length">
-              <v-card>
-                <v-img :src="cars[index].imageUrl" height="200"></v-img>
-                <v-card-subtitle class="car-title">{{ cars[index].name }}</v-card-subtitle>
-                <v-card-subtitle class="car-brand">{{ cars[index].brand }}</v-card-subtitle>
-                <v-card-subtitle class="car-year">{{ cars[index].year }}</v-card-subtitle>
-                <v-card-subtitle class="car-version">{{ cars[index].version }}</v-card-subtitle>
-                <v-card-subtitle class="car-price">${{ cars[index].price }}</v-card-subtitle>
-              </v-card>
-            </v-col>
-
-            <!-- Card 2 -->
-            <v-col cols="6" v-if="index + 1 < cars.length">
-              <v-card>
-                <v-img :src="cars[index + 1].imageUrl" height="200"></v-img>
-                <v-card-subtitle class="car-title">{{ cars[index + 1].name }}</v-card-subtitle>
-                <v-card-subtitle class="car-brand">{{ cars[index + 1].brand }}</v-card-subtitle>
-                <v-card-subtitle class="car-year">{{ cars[index + 1].year }}</v-card-subtitle>
-                <v-card-subtitle class="car-version">{{ cars[index + 1].version }}</v-card-subtitle>
-                <v-card-subtitle class="car-price">${{ cars[index + 1].price }}</v-card-subtitle>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-    </template>
+      <v-row >
+          <v-col cols="6" v-for="(car, index) in cars" :key="index" >
+            <v-card class="custom-card">
+              <v-img :src="car.fotos.foto[0]" contain width="100%" class="custom-image"></v-img>
+              <v-row class="info-car">
+                <!-- Primeira coluna com nome e marca -->
+                <v-col cols="6" class="inf-esq">
+                  <v-card-title>{{ car.modelo }}</v-card-title>
+                  <v-card-subtitle>{{ car.marca }}</v-card-subtitle>
+                </v-col>
+                <!-- Segunda coluna com ano, versão e preço -->
+                <v-col cols="6" class="inf-dir">
+                  <v-card-subtitle><span class="label-ano">Ano :</span> {{ car.anoFabricacao }}</v-card-subtitle>
+                  <v-card-subtitle>{{ car.versao }}</v-card-subtitle>
+                  <v-card-subtitle class="inf-dir-preco">{{ car.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</v-card-subtitle>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-col>
+  </v-row>
+  </template>
     <!--Grid 3-->
-    <template v-if="viewMode === 'grid-3'">
-      <v-row v-for="(car, index) in cars" :key="index">
-        <!-- Verifica se é uma linha múltiplo de 3 -->
-        <v-col v-if="index % 3 === 0" cols="12">
-          <v-row>
-            <!-- Card 1 -->
-            <v-col cols="4" v-if="index < cars.length">
-              <v-card>
-                <v-img :src="cars[index].imageUrl" height="200"></v-img>
-                <v-card-subtitle class="car-title">{{ cars[index].name }}</v-card-subtitle>
-                <v-card-subtitle class="car-brand">{{ cars[index].brand }}</v-card-subtitle>
-                <v-card-subtitle class="car-year">{{ cars[index].year }}</v-card-subtitle>
-                <v-card-subtitle class="car-version">{{ cars[index].version }}</v-card-subtitle>
-                <v-card-subtitle class="car-price">${{ cars[index].price }}</v-card-subtitle>
+  <template v-if="viewMode === 'grid-3'">
+      <v-row >
+          <v-col cols="4" v-for="(car, index) in cars" :key="index">
+              <v-card >
+                <v-img :src="car.fotos.foto[0]" contain width="100%" height="100%"></v-img>
+                <v-row  class="info-car">
+                    <!-- Primeira coluna com nome e marca -->
+                    <v-col cols="6" class="inf-esq">
+                      <v-card-title>{{ car.modelo }}</v-card-title>
+                      <v-card-subtitle>{{ car.marca }}</v-card-subtitle>
+                    </v-col>
+                    <!-- Segunda coluna com ano, versão e preço -->
+                    <v-col cols="6"  class="inf-dir">
+                       <v-card-subtitle><span class="label-ano">Ano :</span> {{ car.anoFabricacao }}</v-card-subtitle>
+                      <v-card-subtitle>{{ car.versao }}</v-card-subtitle>
+                      <v-card-subtitle class="inf-dir-preco">{{ car.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</v-card-subtitle>
+                    </v-col>
+                  </v-row>
               </v-card>
             </v-col>
-
-            <!-- Card 2 -->
-            <v-col cols="4" v-if="index + 1 < cars.length">
-              <v-card>
-                <v-img :src="cars[index + 1].imageUrl" height="200"></v-img>
-                <v-card-subtitle class="car-title">{{ cars[index + 1].name }}</v-card-subtitle>
-                <v-card-subtitle class="car-brand">{{ cars[index + 1].brand }}</v-card-subtitle>
-                <v-card-subtitle class="car-year">{{ cars[index + 1].year }}</v-card-subtitle>
-                <v-card-subtitle class="car-version">{{ cars[index + 1].version }}</v-card-subtitle>
-                <v-card-subtitle class="car-price">${{ cars[index + 1].price }}</v-card-subtitle>
-              </v-card>
-            </v-col>
-
-            <!-- Card 3 -->
-            <v-col cols="4" v-if="index + 2 < cars.length">
-              <v-card>
-                <v-img :src="cars[index + 2].imageUrl" height="200"></v-img>
-                <v-card-subtitle class="car-title">{{ cars[index + 2].name }}</v-card-subtitle>
-                <v-card-subtitle class="car-brand">{{ cars[index + 2].brand }}</v-card-subtitle>
-                <v-card-subtitle class="car-year">{{ cars[index + 2].year }}</v-card-subtitle>
-                <v-card-subtitle class="car-version">{{ cars[index + 2].version }}</v-card-subtitle>
-                <v-card-subtitle class="car-price">${{ cars[index + 2].price }}</v-card-subtitle>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-col>
       </v-row>
-    </template>
+  </template>
  <!--Grid 4-->
   </v-container>
    <v-container fluid>
         <template v-if="viewMode === 'grid-4'">
-          <v-row v-for="(car, index) in cars" :key="index">
-            <!-- Verifica se é uma linha múltiplo de 4 -->
-            <v-col v-if="index % 4 === 0" cols="12">
-              <v-row>
-                <!-- Card 1 -->
-                <v-col cols="3" v-if="index < cars.length">
+          <v-row>
+                <v-col cols="3"  v-for="(car, index) in cars" :key="index">
                   <v-card>
-                    <v-img :src="cars[index].imageUrl" height="200"></v-img>
-                    <v-card-subtitle class="car-title">{{ cars[index].name }}</v-card-subtitle>
-                    <v-card-subtitle class="car-brand">{{ cars[index].brand }}</v-card-subtitle>
-                    <v-card-subtitle class="car-year">{{ cars[index].year }}</v-card-subtitle>
-                    <v-card-subtitle class="car-version">{{ cars[index].version }}</v-card-subtitle>
-                    <v-card-subtitle class="car-price">${{ cars[index].price }}</v-card-subtitle>
+                    <v-img :src="car.fotos.foto[0]" contain width="100%" height="auto"></v-img>
+                    <v-row class="info-car">
+                      <!-- Primeira coluna com nome e marca -->
+                      <v-col cols="6" class="inf-esq">
+                        <v-card-title>{{ car.modelo }}</v-card-title>
+                        <v-card-subtitle>{{ car.modelo }}</v-card-subtitle>
+                      </v-col>
+                      <!-- Segunda coluna com ano, versão e preço -->
+                      <v-col cols="6"  class="inf-dir">
+                         <v-card-subtitle><span class="label-ano">Ano :</span> {{ car.anoFabricacao }}</v-card-subtitle>
+                        <v-card-subtitle>{{ car.versao }}</v-card-subtitle>
+                        <v-card-subtitle class="inf-dir-preco">{{ car.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</v-card-subtitle>
+                      </v-col>
+                    </v-row>
                   </v-card>
                 </v-col>
-
-                <!-- Card 2 -->
-                <v-col cols="3" v-if="index + 1 < cars.length">
-                  <v-card>
-                    <v-img :src="cars[index + 1].imageUrl" height="200"></v-img>
-                    <v-card-subtitle class="car-title">{{ cars[index + 1].name }}</v-card-subtitle>
-                    <v-card-subtitle class="car-brand">{{ cars[index + 1].brand }}</v-card-subtitle>
-                    <v-card-subtitle class="car-year">{{ cars[index + 1].year }}</v-card-subtitle>
-                    <v-card-subtitle class="car-version">{{ cars[index + 1].version }}</v-card-subtitle>
-                    <v-card-subtitle class="car-price">${{ cars[index + 1].price }}</v-card-subtitle>
-                  </v-card>
-                </v-col>
-
-                <!-- Card 3 -->
-                <v-col cols="3" v-if="index + 2 < cars.length">
-                  <v-card>
-                    <v-img :src="cars[index + 2].imageUrl" height="200"></v-img>
-                    <v-card-subtitle class="car-title">{{ cars[index + 2].name }}</v-card-subtitle>
-                    <v-card-subtitle class="car-brand">{{ cars[index + 2].brand }}</v-card-subtitle>
-                    <v-card-subtitle class="car-year">{{ cars[index + 2].year }}</v-card-subtitle>
-                    <v-card-subtitle class="car-version">{{ cars[index + 2].version }}</v-card-subtitle>
-                    <v-card-subtitle class="car-price">${{ cars[index + 2].price }}</v-card-subtitle>
-                  </v-card>
-                </v-col>
-
-                <!-- Card 4 -->
-                <v-col cols="3" v-if="index + 3 < cars.length">
-                  <v-card>
-                    <v-img :src="cars[index + 3].imageUrl" height="200"></v-img>
-                    <v-card-subtitle class="car-title">{{ cars[index + 3].name }}</v-card-subtitle>
-                    <v-card-subtitle class="car-brand">{{ cars[index + 3].brand }}</v-card-subtitle>
-                    <v-card-subtitle class="car-year">{{ cars[index + 3].year }}</v-card-subtitle>
-                    <v-card-subtitle class="car-version">{{ cars[index + 3].version }}</v-card-subtitle>
-                    <v-card-subtitle class="car-price">${{ cars[index + 3].price }}</v-card-subtitle>
-                  </v-card>
-                </v-col>
-              </v-row>
-            </v-col>
           </v-row>
       </template>
    </v-container>
@@ -192,8 +131,8 @@ export default {
 <style scoped>
 /* Estilos específicos para o componente, se necessário */
 .car-card {
-  width: 100%; /* Ajuste conforme necessário */
-  margin: 10px;
+    width: 100%; /* Ajuste conforme necessário */
+    margin: 10px;
 }
 
 .car-title,
@@ -204,4 +143,115 @@ export default {
   text-align: center;
   font-weight: bold;
 }
+.row-single{
+  display: flex; 
+  flex-direction: row; 
+  justify-content: center;
+  align-items: center;
+}
+.img-single{
+  width: 70%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.custom-card{
+  width: 70%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.info-car{
+  height: 160px;
+}
+.inf-dir-single{
+    background: #000!important;
+    border-radius: 0 0 4px 0!important;
+    -webkit-clip-path: polygon(30px 0,100% 0,100% 100%,0 100%)!important;
+    clip-path: polygon(30px 0,100% 0,100% 100%,0 100%)!important;
+    color: #ffff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 200px;
+}
+.inf-dir-single .v-card-subtitle{
+    display: block;
+    flex: none;
+    font-size: 16px;
+    font-weight: 300;
+     opacity: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: none;
+    white-space: nowrap;
+    padding-top: 5px;
+}
+
+.inf-dir {
+    background: #000!important;
+    border-radius: 0 0 4px 0!important;
+    -webkit-clip-path: polygon(30px 0,100% 0,100% 100%,0 100%)!important;
+    clip-path: polygon(30px 0,100% 0,100% 100%,0 100%)!important;
+    color: #ffff;
+    margin-top: 10px ;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.inf-dir .v-card-subtitle{
+    display: block;
+    flex: none;
+    font-size: 16px;
+    font-weight: 300;
+     opacity: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: none;
+    white-space: nowrap;
+    padding-top: 5px;
+}
+.inf-dir-preco{
+  font-size: 18px !important;
+  font-weight: 500 !important;
+}
+.inf-esq{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.inf-esq  .v-card-subtitle{
+  display: block;
+    flex: none;
+    font-size: 16px;
+    font-weight: 500;
+     opacity: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: none;
+    white-space: nowrap;
+}
+
+
+
+/*celulares*/
+@media screen and (max-width: 767px) {
+  .custom-card{
+    width: 100%;
+  }
+}
+
+/*monitores*/
+@media screen and (min-width: 1600px) {
+  .custom-card{
+    width: 50%;
+   
+}
+}
+
+
+
 </style>
