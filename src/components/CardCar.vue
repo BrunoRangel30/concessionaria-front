@@ -2,10 +2,10 @@
 <template>
     <v-container>
         <template v-if="viewMode === 'single'">
-          <v-row>
+          <v-row >
               <template v-for="car in cars" :key="car.id">
                 <v-col cols="12" >
-                  <v-card>
+                  <v-card style="box-shadow: none">
                       <v-row no-gutters >
                         <!-- Coluna para a imagem -->
                         <v-col  :cols="isMobile ? '12' : '4'"   :offset="isMobile ? '0' : '2'" >
@@ -37,7 +37,7 @@
             <v-row >
                 <template v-for="car in cars" :key="car.id">
                     <v-col :cols="isMobile ? '12' : '6'" >
-                         <v-card class="custom-card">
+                         <v-card class="custom-card" style="box-shadow: none">
                               <div class="custom-div-2 card-center" >
                                   <img :src="car.fotos.foto[0]" class="custom-img" ></img>
                                </div>
@@ -60,7 +60,7 @@
             <v-row >
                 <template v-for="car in cars" :key="car.id">
                     <v-col :cols="isMobile ? '12' : '4'" >
-                         <v-card class="custom-card">
+                         <v-card class="custom-card" style="box-shadow: none">
                               <div class="custom-div-3 card-center" >
                                   <img :src="car.fotos.foto[0]" class="custom-img" ></img>
                                </div>
@@ -85,11 +85,11 @@
             <v-row >
                 <template v-for="car in cars" :key="car.id">
                     <v-col :cols="isMobile ? '12' : '3'" >
-                         <v-card class="custom-card">
-                              <div class="custom-div-3 card-center" >
+                         <v-card class="custom-card" style="box-shadow: none">
+                              <div class="custom-div-4 card-center" >
                                   <img :src="car.fotos.foto[0]" class="custom-img" ></img>
                                </div>
-                                <div class="info-card-3 card-center">
+                                <div class="info-card-4 card-center">
                                     <h2 class="info-modelo">{{ car.modelo }}</h2>
                                     <h3 class="info-marca">{{ car.marca }}</h3>
                                     <p>
@@ -131,12 +131,17 @@ export default {
   methods: {
     checkScreenSize() {
         const mobileScreenSize = 600;
-        return window.innerWidth < mobileScreenSize;
+        this.isMobile = window.innerWidth < mobileScreenSize;
     },
   },
   mounted() {
     this.isMobile = this.checkScreenSize();
+    window.addEventListener('resize', this.checkScreenSize); // Ouve o evento resize
+    this.checkScreenSize()
 
+  },
+  beforeDestroy() {
+     window.removeEventListener('resize', this.checkScreenSize); // Remove o ouvinte de evento antes de destruir o componente
   },
 };
 </script>
@@ -154,6 +159,7 @@ export default {
     height: 300px; 
     /*border: 2px solid yellow;*/
     position: relative;
+    
 }
 .custom-div-2{
     width: 60%;
@@ -167,12 +173,19 @@ export default {
     /*border: 2px solid yellow;*/
     position: relative;
 }
+.custom-div-4{
+    width: 90%;
+    height: 290px; 
+    /*border: 2px solid yellow;*/
+    position: relative;
+}
 .custom-img {
     width: 100%;
    /* border: 2px solid red;*/
     object-fit: cover !important;
     height: 100%;
     position: absolute;
+
 }
 .info-card{
   display: flex;
@@ -185,6 +198,7 @@ export default {
   /*-webkit-clip-path: polygon(0px 0,100% 0,100% 100%,0 100%)!important;
   clip-path: polygon(30px 0,100% 0,100% 100%,0 100%)!important;*/
   color: #ffff;
+  
 }
 .info-card-2{
   height: 200px;
@@ -201,6 +215,17 @@ export default {
   height: 200px;
   background: rgba(64, 64, 64, 1);
   width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center ;
+  align-items:center ;
+  text-align:center;
+  color: #ffff;
+}
+.info-card-4{
+  height: 200px;
+  background: rgba(64, 64, 64, 1);
+  width: 90%;
   display: flex;
   flex-direction: column;
   justify-content: center ;

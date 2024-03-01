@@ -42,26 +42,25 @@
       
       
       <!-- Drawer, apenas em telas menores -->
-      <v-navigation-drawer app v-model="drawer" class="d-lg-none">
+      <v-navigation-drawer app v-model="drawer" class="d-lg-none mt-5" style="width:100%;height: 30%">
         <v-list>
-          <v-list-item @click="navigateTo('/veiculos')">
-            <v-list-item-icon>
-              <v-icon>mdi-car</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Veículos</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item @click="navigateTo('/carros')">
-            <v-list-item-icon>
-              <v-icon>mdi-car-sports</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Carros</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <!-- Adicione mais opções conforme necessário -->
-        </v-list>
+            <v-list-item @click="navigateTo('/veiculos')">
+              <v-list-item-content>
+                <v-list-item-title>ESTOQUE</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item @click="navigateTo('/carros')">
+              <v-list-item-content>
+                <v-list-item-title> FOTOS DA LOJA </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item @click="navigateTo('/carros')">
+              <v-list-item-content>
+                <v-list-item-title> SOBRE A EMPRESA </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <!-- Adicione mais opções conforme necessário -->
+          </v-list>
       </v-navigation-drawer>
    
   </template>
@@ -112,7 +111,7 @@
   }
   .menu-inicial .logo{
       max-width: 100%; /* A imagem não será maior que 100% da largura do contêiner pai */
-      max-height: 120px; /* Altura máxima da imagem */
+      max-height: 90px; /* Altura máxima da imagem */
       object-fit: contain;
   }
 
@@ -131,15 +130,13 @@
   }
 
   /************************Menu rolagem ***********************/
-  .menu-rolagem{
-    background-color: rgba(64, 64, 64, 1) !important;
-    box-shadow: none !important;
-  }
+  
   .menu-rolagem .logo{
     max-width: 100%; 
     max-height: 90px;
     object-fit: contain;
-    margin: 2%
+    margin-top: 2%;
+    margin-bottom: 2%
   }
   .menu-rolagem ::v-deep .v-toolbar__content {
         height: 15vh !important;
@@ -148,8 +145,27 @@
   
   @media only screen and (max-width: 767px) {
     .logo {
-        max-height: 60px;
+        max-height: 60px !important;
+        width: 100px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
     }
+    .menu-inicial ::v-deep .v-toolbar__content {
+      height: 10vh !important;
+      margin-top: 20px
+    }
+    .menu-rolagem .logo{
+      margin-top: 20px;
+      
+    } 
+    .menu-rolagem .v-icon{
+       color: #FFFFFF
+    }
+    .menu-inicial .v-icon{
+       color: #FFFFFF
+    }
+    
   }
   /* Estilos específicos para o componente Menu */
      @media (min-width: 600px) {   
