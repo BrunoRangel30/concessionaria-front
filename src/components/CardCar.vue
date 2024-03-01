@@ -1,99 +1,108 @@
 <!-- src/components/CarCard.vue -->
 <template>
-  <v-container>
-    <template v-if="viewMode === 'single'">
-        <v-row v-for="car in cars" :key="car.id" >
-          <v-col cols="6">
-            <!-- Conteúdo da primeira coluna (imagem) -->
-            <v-img class="img-single" :src="car.fotos.foto[0]" contain  height="auto"></v-img>
-          </v-col>
-          <v-col cols="6" class="row-single" >
-            <v-row style="background-color:rgba(150, 150, 150, 0.8);">
-              <v-col cols="6"  class="inf-esq" >
-                <v-card-title>{{ car.modelo }}</v-card-title>
-                <v-card-subtitle>{{ car.marca }}</v-card-subtitle>
-              </v-col>
-              <!-- Segunda coluna com ano, versão e preço -->
-              <v-col cols="6" class="inf-dir-single">
-                 <v-card-subtitle><span class="label-ano">Ano :</span> {{ car.anoFabricacao }}</v-card-subtitle>
-                <v-card-subtitle>{{ car.versao }}</v-card-subtitle>
-                <v-card-subtitle class="inf-dir-preco">{{ car.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</v-card-subtitle>
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
-    </template>
-    <!--Grid 2-->
-    <template v-if="viewMode === 'grid-2'">
-      <v-row >
-          <v-col cols="6" v-for="(car, index) in cars" :key="index" >
-            <v-card class="custom-card">
-              <v-img :src="car.fotos.foto[0]" contain width="100%" class="custom-image"></v-img>
-              <v-row class="info-car">
-                <!-- Primeira coluna com nome e marca -->
-                <v-col cols="6" class="inf-esq">
-                  <v-card-title>{{ car.modelo }}</v-card-title>
-                  <v-card-subtitle>{{ car.marca }}</v-card-subtitle>
-                </v-col>
-                <!-- Segunda coluna com ano, versão e preço -->
-                <v-col cols="6" class="inf-dir">
-                  <v-card-subtitle><span class="label-ano">Ano :</span> {{ car.anoFabricacao }}</v-card-subtitle>
-                  <v-card-subtitle>{{ car.versao }}</v-card-subtitle>
-                  <v-card-subtitle class="inf-dir-preco">{{ car.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</v-card-subtitle>
-                </v-col>
-              </v-row>
-            </v-card>
-          </v-col>
-  </v-row>
-  </template>
-    <!--Grid 3-->
-  <template v-if="viewMode === 'grid-3'">
-      <v-row >
-          <v-col cols="4" v-for="(car, index) in cars" :key="index">
-              <v-card >
-                <v-img :src="car.fotos.foto[0]" contain width="100%" height="100%"></v-img>
-                <v-row  class="info-car">
-                    <!-- Primeira coluna com nome e marca -->
-                    <v-col cols="6" class="inf-esq">
-                      <v-card-title>{{ car.modelo }}</v-card-title>
-                      <v-card-subtitle>{{ car.marca }}</v-card-subtitle>
-                    </v-col>
-                    <!-- Segunda coluna com ano, versão e preço -->
-                    <v-col cols="6"  class="inf-dir">
-                       <v-card-subtitle><span class="label-ano">Ano :</span> {{ car.anoFabricacao }}</v-card-subtitle>
-                      <v-card-subtitle>{{ car.versao }}</v-card-subtitle>
-                      <v-card-subtitle class="inf-dir-preco">{{ car.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</v-card-subtitle>
-                    </v-col>
-                  </v-row>
-              </v-card>
-            </v-col>
-      </v-row>
-  </template>
- <!--Grid 4-->
-  </v-container>
-   <v-container fluid>
-        <template v-if="viewMode === 'grid-4'">
+    <v-container>
+        <template v-if="viewMode === 'single'">
           <v-row>
-                <v-col cols="3"  v-for="(car, index) in cars" :key="index">
+              <template v-for="car in cars" :key="car.id">
+                <v-col cols="12" >
                   <v-card>
-                    <v-img :src="car.fotos.foto[0]" contain width="100%" height="auto"></v-img>
-                    <v-row class="info-car">
-                      <!-- Primeira coluna com nome e marca -->
-                      <v-col cols="6" class="inf-esq">
-                        <v-card-title>{{ car.modelo }}</v-card-title>
-                        <v-card-subtitle>{{ car.modelo }}</v-card-subtitle>
-                      </v-col>
-                      <!-- Segunda coluna com ano, versão e preço -->
-                      <v-col cols="6"  class="inf-dir">
-                         <v-card-subtitle><span class="label-ano">Ano :</span> {{ car.anoFabricacao }}</v-card-subtitle>
-                        <v-card-subtitle>{{ car.versao }}</v-card-subtitle>
-                        <v-card-subtitle class="inf-dir-preco">{{ car.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</v-card-subtitle>
-                      </v-col>
-                    </v-row>
+                      <v-row no-gutters >
+                        <!-- Coluna para a imagem -->
+                        <v-col  :cols="isMobile ? '12' : '4'"   :offset="isMobile ? '0' : '2'" >
+                            <div class="custom-div card-center" >
+                              <img :src="car.fotos.foto[0]" class="custom-img" ></img>
+                            </div>
+                        </v-col>
+                        <!-- Coluna para o conteúdo do card -->
+                        <v-col :cols="isMobile ? '12' : '4'"  class="info-card">
+                            <!-- Conteúdo do card -->
+                            <h2 class="info-modelo">{{ car.modelo }}</h2>
+
+                            <h3 class="info-marca">{{ car.marca }}</h3>
+                            <p>
+                              <!-- Outras informações do carro -->
+                              <span class="inf-ano">Ano: {{ car.anoFabricacao }}<br></span>
+                              {{ car.versao }}<br>
+                              <span class="inf-preco">{{ car.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</span>
+                            </p>
+                        </v-col>
+                      </v-row>
                   </v-card>
                 </v-col>
+              </template>
           </v-row>
-      </template>
+        </template>
+        <!--Grid 2-->
+        <template v-if="viewMode === 'grid-2'">
+            <v-row >
+                <template v-for="car in cars" :key="car.id">
+                    <v-col :cols="isMobile ? '12' : '6'" >
+                         <v-card class="custom-card">
+                              <div class="custom-div-2 card-center" >
+                                  <img :src="car.fotos.foto[0]" class="custom-img" ></img>
+                               </div>
+                                <div class="info-card-2 card-center">
+                                    <h2 class="info-modelo">{{ car.modelo }}</h2>
+                                    <h3 class="info-marca">{{ car.marca }}</h3>
+                                    <p>
+                                      <span class="inf-ano">Ano: {{ car.anoFabricacao }}<br></span>
+                                      {{ car.versao }}<br>
+                                      <span class="inf-preco">{{ car.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</span>
+                                    </p>
+                                </div>
+                         </v-card>
+                      </v-col>
+                </template>
+             </v-row>
+       </template>
+      <!--Grid 3-->
+      <template v-if="viewMode === 'grid-3'">
+            <v-row >
+                <template v-for="car in cars" :key="car.id">
+                    <v-col :cols="isMobile ? '12' : '4'" >
+                         <v-card class="custom-card">
+                              <div class="custom-div-3 card-center" >
+                                  <img :src="car.fotos.foto[0]" class="custom-img" ></img>
+                               </div>
+                                <div class="info-card-3 card-center">
+                                    <h2 class="info-modelo">{{ car.modelo }}</h2>
+                                    <h3 class="info-marca">{{ car.marca }}</h3>
+                                    <p>
+                                      <span class="inf-ano">Ano: {{ car.anoFabricacao }}<br></span>
+                                      {{ car.versao }}<br>
+                                      <span class="inf-preco">{{ car.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</span>
+                                    </p>
+                                </div>
+                         </v-card>
+                      </v-col>
+                </template>
+             </v-row>
+       </template>
+    </v-container>
+  <!--Grid 4-->
+   <v-container fluid>
+    <template v-if="viewMode === 'grid-4'">
+            <v-row >
+                <template v-for="car in cars" :key="car.id">
+                    <v-col :cols="isMobile ? '12' : '3'" >
+                         <v-card class="custom-card">
+                              <div class="custom-div-3 card-center" >
+                                  <img :src="car.fotos.foto[0]" class="custom-img" ></img>
+                               </div>
+                                <div class="info-card-3 card-center">
+                                    <h2 class="info-modelo">{{ car.modelo }}</h2>
+                                    <h3 class="info-marca">{{ car.marca }}</h3>
+                                    <p>
+                                      <span class="inf-ano">Ano: {{ car.anoFabricacao }}<br></span>
+                                      {{ car.versao }}<br>
+                                      <span class="inf-preco">{{ car.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</span>
+                                    </p>
+                                </div>
+                         </v-card>
+                      </v-col>
+                </template>
+             </v-row>
+       </template>
    </v-container>
 </template>
 
@@ -113,143 +122,137 @@ export default {
     return {
     //  viewMode: 'single', // Modo de visualização padrão
     //  viewModes: ['single', 'grid-2', 'grid-3']
+      isMobile: false
     };
   },
   computed: {
    
   },
   methods: {
-    
-    
-   
-  
-   
-  }
+    checkScreenSize() {
+        const mobileScreenSize = 600;
+        return window.innerWidth < mobileScreenSize;
+    },
+  },
+  mounted() {
+    this.isMobile = this.checkScreenSize();
+
+  },
 };
 </script>
 
 <style scoped>
 /* Estilos específicos para o componente, se necessário */
-.car-card {
-    width: 100%; /* Ajuste conforme necessário */
-    margin: 10px;
-}
-
-.car-title,
-.car-brand,
-.car-year,
-.car-version,
-.car-price {
-  text-align: center;
-  font-weight: bold;
-}
-.row-single{
-  display: flex; 
-  flex-direction: row; 
-  justify-content: center;
-  align-items: center;
-}
-.img-single{
-  width: 70%;
+.card-center{
   display: block;
-  margin-left: auto;
+  margin-left:auto;
   margin-right: auto;
 }
-.custom-card{
-  width: 70%;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-.info-car{
-  height: 160px;
-}
-.inf-dir-single{
-    background: #000!important;
-    border-radius: 0 0 4px 0!important;
-    -webkit-clip-path: polygon(30px 0,100% 0,100% 100%,0 100%)!important;
-    clip-path: polygon(30px 0,100% 0,100% 100%,0 100%)!important;
-    color: #ffff;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 200px;
-}
-.inf-dir-single .v-card-subtitle{
-    display: block;
-    flex: none;
-    font-size: 16px;
-    font-weight: 300;
-     opacity: 2;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-transform: none;
-    white-space: nowrap;
-    padding-top: 5px;
-}
 
-.inf-dir {
-    background: #000!important;
-    border-radius: 0 0 4px 0!important;
-    -webkit-clip-path: polygon(30px 0,100% 0,100% 100%,0 100%)!important;
-    clip-path: polygon(30px 0,100% 0,100% 100%,0 100%)!important;
-    color: #ffff;
-    margin-top: 10px ;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.custom-div {
+    width: 60%;
+    height: 300px; 
+    /*border: 2px solid yellow;*/
+    position: relative;
 }
-.inf-dir .v-card-subtitle{
-    display: block;
-    flex: none;
-    font-size: 16px;
-    font-weight: 300;
-     opacity: 2;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-transform: none;
-    white-space: nowrap;
-    padding-top: 5px;
+.custom-div-2{
+    width: 60%;
+    height: 290px; 
+    /*border: 2px solid yellow;*/
+    position: relative;
 }
-.inf-dir-preco{
-  font-size: 18px !important;
-  font-weight: 500 !important;
+.custom-div-3{
+    width: 80%;
+    height: 290px; 
+    /*border: 2px solid yellow;*/
+    position: relative;
 }
-.inf-esq{
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.custom-img {
+    width: 100%;
+   /* border: 2px solid red;*/
+    object-fit: cover !important;
+    height: 100%;
+    position: absolute;
 }
-.inf-esq  .v-card-subtitle{
-  display: block;
-    flex: none;
-    font-size: 16px;
-    font-weight: 500;
-     opacity: 2;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-transform: none;
-    white-space: nowrap;
+.info-card{
+  display: flex;
+  flex-direction: column;
+  justify-content: center ;
+  align-items:center ;
+  text-align:center;
+  background: rgba(64, 64, 64, 1);
+  border-radius: 0 0 4px 0!important;
+  /*-webkit-clip-path: polygon(0px 0,100% 0,100% 100%,0 100%)!important;
+  clip-path: polygon(30px 0,100% 0,100% 100%,0 100%)!important;*/
+  color: #ffff;
 }
-
-
+.info-card-2{
+  height: 200px;
+  background: rgba(64, 64, 64, 1);
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center ;
+  align-items:center ;
+  text-align:center;
+  color: #ffff;
+}
+.info-card-3{
+  height: 200px;
+  background: rgba(64, 64, 64, 1);
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center ;
+  align-items:center ;
+  text-align:center;
+  color: #ffff;
+}
+.inf-preco{
+  font-size: 19px ;
+  font-weight: 700 ;
+  color: #d6ac50;
+}
 
 /*celulares*/
 @media screen and (max-width: 767px) {
-  .custom-card{
+  /*configurações do card*/
+    .custom-card{
+      width: 100%;
+      padding: 10px;
+   }
+   .custom-div{
+       width: 100% ;
+       height: 250px; 
+    }
+   .custom-div-2{
+    width: 100% ;
+   }
+   .info-card{
+    padding: 20px !important;
+   }
+   .info-card-2{
     width: 100%;
-  }
+   }
+    .inf-preco{
+      font-size: 16px ;
+   }
+    .info-modelo{
+      font-size: 18px ;
+    }
+    .info-marca{
+      font-size: 16px ;
+    }
+    .inf-ano{
+      font-size: 16px ;
+    }
 }
 
 /*monitores*/
 @media screen and (min-width: 1600px) {
   .custom-card{
     width: 50%;
-   
-}
+  }
 }
 
 

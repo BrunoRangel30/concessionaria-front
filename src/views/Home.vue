@@ -88,8 +88,8 @@
                 selectedBrand: null,
                 selectedModel: null,
                 selectedPrice: null,
-                brands: ['Brand 1', 'Brand 2', 'Brand 3'],
-                models: ['Model 1', 'Model 2', 'Model 3'],
+                brands: [],
+                models: [],
                 prices: ['Low', 'Medium', 'High'],
                 cars: [],
                  viewMode: 'single' // Defina isso com base na visualização do usuário
@@ -97,8 +97,19 @@
         },
         computed: {
             filteredCars() {
-                // Lógica para filtrar os carros com base nos filtros da pesquisa
-                return this.cars;
+
+                let filteredCars = this.cars;
+                // Filtrar por marca
+                if (this.selectedBrand) {
+                    filteredCars = filteredCars.filter(car => car.marca === this.selectedBrand);
+                }
+        
+                // Filtrar por modelo
+                if (this.selectedModel) {
+                    filteredCars = filteredCars.filter(car => car.modelo === this.selectedModel);
+                }
+        
+                return filteredCars;
             },
           /*  isSingleView() {
                 return this.viewMode === 'single';
@@ -119,10 +130,12 @@
             }
         },
         mounted() {
-            axios.get('https://www.gois.inf.br/easycar/feed/estoque_filter.php?loja=18352')
+            axios.get('https://www.gois.inf.br/easycar/feed/estoque_filter.php?loja=8103')
             .then(response => {
                 this.cars = response.data;
-                //console.log(this.cars,'card')
+                this.brands = [...new Set(this.cars.map(car => car.marca))];
+                this.models = [...new Set(this.cars.map(car => car.modelo))];
+                
             })
             .catch(error => {
                 console.error('Erro ao buscar dados do servidor:', error);
