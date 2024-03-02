@@ -10,7 +10,7 @@
                         <!-- Coluna para a imagem -->
                         <v-col  :cols="isMobile ? '12' : '4'"   :offset="isMobile ? '0' : '2'" >
                             <div class="custom-div card-center" >
-                              <img :src="car.fotos.foto[0]" class="custom-img" ></img>
+                              <img :src="car.fotos.foto[0]" class="custom-img" />
                             </div>
                         </v-col>
                         <!-- Coluna para o conteúdo do card -->
@@ -34,12 +34,12 @@
         </template>
         <!--Grid 2-->
         <template v-if="viewMode === 'grid-2'">
-            <v-row >
+            <v-row>
                 <template v-for="car in cars" :key="car.id">
-                    <v-col :cols="isMobile ? '12' : '6'" >
-                         <v-card class="custom-card" style="box-shadow: none">
+                    <v-col  :cols="isMobile ? '12' : '6'">
+                         <v-card class="card-center" style="box-shadow: none">
                               <div class="custom-div-2 card-center" >
-                                  <img :src="car.fotos.foto[0]" class="custom-img" ></img>
+                                  <img :src="car.fotos.foto[0]" class="custom-img"/>
                                </div>
                                 <div class="info-card-2 card-center">
                                     <h2 class="info-modelo">{{ car.modelo }}</h2>
@@ -59,10 +59,10 @@
       <template v-if="viewMode === 'grid-3'">
             <v-row >
                 <template v-for="car in cars" :key="car.id">
-                    <v-col :cols="isMobile ? '12' : '4'" >
-                         <v-card class="custom-card" style="box-shadow: none">
+                    <v-col :cols="isMobile ? '12' : '4'" :md="6">
+                         <v-card class="card-center" style="box-shadow: none">
                               <div class="custom-div-3 card-center" >
-                                  <img :src="car.fotos.foto[0]" class="custom-img" ></img>
+                                  <img :src="car.fotos.foto[0]" class="custom-img" />
                                </div>
                                 <div class="info-card-3 card-center">
                                     <h2 class="info-modelo">{{ car.modelo }}</h2>
@@ -85,9 +85,9 @@
             <v-row >
                 <template v-for="car in cars" :key="car.id">
                     <v-col :cols="isMobile ? '12' : '3'" >
-                         <v-card class="custom-card" style="box-shadow: none">
+                         <v-card class="card-center" style="box-shadow: none">
                               <div class="custom-div-4 card-center" >
-                                  <img :src="car.fotos.foto[0]" class="custom-img" ></img>
+                                  <img :src="car.fotos.foto[0]" class="custom-img" />
                                </div>
                                 <div class="info-card-4 card-center">
                                     <h2 class="info-modelo">{{ car.modelo }}</h2>
@@ -242,10 +242,10 @@ export default {
 /*celulares*/
 @media screen and (max-width: 767px) {
   /*configurações do card*/
-    .custom-card{
+   /* .custom-card{
       width: 100%;
       padding: 10px;
-   }
+   }*/
    .custom-div{
        width: 100% ;
        height: 250px; 
@@ -275,9 +275,10 @@ export default {
 
 /*monitores*/
 @media screen and (min-width: 1600px) {
-  .custom-card{
+  /*.custom-card{
     width: 50%;
-  }
+  }*/
+  
 }
 
 

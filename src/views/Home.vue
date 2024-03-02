@@ -311,7 +311,7 @@
             }
         },
         mounted() {
-            axios.get('https://www.gois.inf.br/easycar/feed/estoque_filter.php?loja=8103')
+            axios.get('https://www.gois.inf.br/easycar/feed/estoque_filter.php?loja=18352')
             .then(response => {
                 this.cars = response.data;
                 this.brands = [...new Set(this.cars.map(car => car.marca))];

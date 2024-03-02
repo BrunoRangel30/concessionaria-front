@@ -15,7 +15,7 @@
     
             <!-- Título do App -->
             <v-col :cols="6">
-                <img align="center" src="../assets/img/logo.png" alt="Logo" class="logo" />
+                <img  align="center" src="../assets/img/logo.png" alt="Logo" class="logo div-center" />
             </v-col>
     
             <!-- Ícone à direita, oculto em telas menores -->
@@ -42,7 +42,7 @@
       
       
       <!-- Drawer, apenas em telas menores -->
-      <v-navigation-drawer app v-model="drawer" class="d-lg-none mt-5" style="width:100%;height: 30%">
+      <v-navigation-drawer app v-model="drawer" class="d-lg-none menu-drawer">
         <v-list>
             <v-list-item @click="navigateTo('/veiculos')">
               <v-list-item-content>
@@ -68,7 +68,7 @@
   export default {
     data() {
       return {
-        drawer: true, // Iniciar visível em telas maiores
+        drawer: false, // Iniciar visível em telas maiores
         isSmallScreen: false,
         isScrolled: false,
       };
@@ -142,6 +142,12 @@
         height: 15vh !important;
        
   }
+  .div-center{
+    width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
   
   @media only screen and (max-width: 767px) {
     .logo {
@@ -164,6 +170,11 @@
     }
     .menu-inicial .v-icon{
        color: #FFFFFF
+    }
+    .menu-drawer{
+      top: 130px !important;
+      height: auto !important;
+      width: 80% !important;
     }
     
   }
