@@ -3,6 +3,7 @@ import Components from 'unplugin-vue-components/vite'
 import Vue from '@vitejs/plugin-vue'
 import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 import ViteFonts from 'unplugin-fonts/vite'
+import { copy } from 'fs-extra'
 
 // Utilities
 import { defineConfig } from 'vite'
@@ -43,5 +44,22 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+  },
+  build: {
+    outDir: 'dist',
+    assetsInlineLimit: 0,
+    emptyOutDir: true,
+    write: true,
+    rollupOptions: {
+      plugins: [
+        {
+          name: 'copy-assets',
+          async writeBundle() {
+            // Copy assets to the dist directory
+            await copy('./src/assets', './dist/assets')
+          },
+        },
+      ],
+    },
   },
 })

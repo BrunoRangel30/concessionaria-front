@@ -20,7 +20,7 @@
   
           <!-- Título do App -->
           <v-col :cols="3" >
-              <img  align="left" src="../assets/img/logo.png" alt="Logo" class="logo" />
+             <a href="/"><img  align="left" src="../assets/img/logo.png" alt="Logo" class="logo" /></a>
           </v-col>
   
           <!-- Ícone à direita, oculto em telas menores -->
@@ -48,27 +48,28 @@
       </v-container>
     </v-app-bar>
     <!-- Drawer, apenas em telas menores -->
-    <v-navigation-drawer app v-model="drawer" class="d-lg-none mt-3" >
+    <v-navigation-drawer app v-model="drawer" class="d-lg-none mt-3" id="drawer">
       <v-list style="margin-top: 10vh" >
-          <v-list-item @click="navigateTo('/veiculos')">
-            <v-list-item-content>
-              <v-list-item-title>HOME</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item @click="navigateTo('/carros')">
-            <v-list-item-content>
-              <v-list-item-title> SOBRE A EMPRESA </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item @click="navigateTo('')">
-            <v-list-item-content>
-                <p><span class="mdi mdi-whatsapp"></span> 61 982982755</p>
-                <p><span class="mdi mdi-whatsapp"></span> 61 982982755</p>
-                <p><span class="mdi mdi-whatsapp"></span> 61 982982755</p>
-            </v-list-item-content>
-          </v-list-item>
+            <v-list-item @click="navigateTo('/')">
+              <v-list-item-content >
+                <v-list-item-title><span  :class="{ 'active': activeMenu === '/' }">HOME</span></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item @click="navigateTo('/carros')">
+              <v-list-item-content>
+                <v-list-item-title> SOBRE A EMPRESA </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item >
+              <v-list-item-content>
+                  <p><span class="mdi mdi-whatsapp"></span> (61) 98298-2755</p>
+              </v-list-item-content>
+            </v-list-item>
         </v-list>
-       
+        <div class="inf-cel">
+            <p class="localizacao"><span class="mdi mdi-map-marker icone-fonte"></span> Scia Qd.15 Conj.3 Lote:7 Cidade do Automóvel, BRASÍLIA - DF</p>
+            <p  class="horario mt-3"> <span class="mdi mdi-clock-time-four-outline icone-fonte"></span> Horário de atendimento: Seg a sex - 8h às 18h | Sáb - 8h às 13h</p>
+        </div>
     </v-navigation-drawer>
 </template>
 <script>
@@ -149,20 +150,34 @@ export default {
   color: #FFFFFF;
   margin-left: 15px;
   background-color: rgba(64, 64, 64, 1) !important;
- 
 }
 .inf-top{
-    background-color: #FF4225;
-    width: 100%;
-    color:#FFFFFF;
-    display: flex;
-    justify-content: space-between;
-    padding: 15px;
-  }
+  background-color: #FF4225;
+  width: 100%;
+  color:#FFFFFF;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+}
 
-  .inf-top-2{
-    display: none;
-  }
+.inf-top-2{
+  display: none;
+}
+#drawer{
+  background-color: rgba(64, 64, 64, 1) !important;
+  color: #FFFFFF;
+}
+.inf-cel{
+  bottom: 50px;
+  position: absolute;
+  padding: 15px;
+}
+
+.inf-cel p{
+  border-left: 2px solid #FF4225;
+  padding-left: 10px;
+}
+
 /*telas intermediarias*/
   @media only screen and (min-width: 250px) and (max-width: 1280px) {
     .menu-inicial .v-icon{
@@ -172,28 +187,23 @@ export default {
       color: #FFFFFF
     }
     
-   
-    /*.menu-inicial ::v-deep .v-toolbar__content {
-      height: 10vh !important;
-    } 
-    .menu-rolagem ::v-deep .v-toolbar__content {
-      height: 10vh !important;
-    }*/
   }
 /*celular*/
 @media only screen and (max-width: 767px) {
+
   .logo {
       max-height: 60px !important;
   }
- /* .menu-inicial ::v-deep .v-toolbar__content {
-    height: 10vh !important;
-  } 
-  .menu-rolagem ::v-deep .v-toolbar__content {
-    height: 10vh !important;
-  }*/
+  .menu-rolagem{
+      border-bottom: 1px solid #fff;
+      padding-top:20px
+    }
   #menu-drawer{
       margin-top: 25px !important;
     
+  }
+  .inf-top{
+        display: none;
   }
  
 }

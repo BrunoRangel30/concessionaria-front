@@ -148,7 +148,6 @@
                     'Ano (Mais Antigo para Mais Recente)',
                     'Data de Publicação (Mais Recente para Mais Antiga)',
                     'Data de Publicação (Mais Antiga para Mais Recente)',
-                    
                 ],
                 orderOptionsAux: [ // Opções de ordenação para o v-autocomplete
                     { text: 'Preço (Menor para Maior)', value: 'priceAsc' },
@@ -184,6 +183,7 @@
         computed: {
             filteredCars() {
                 let filteredCars = this.displayedCars;
+                filteredCars = this.sortByAlphabeticalAscending(filteredCars);
                if (this.searchQuery && this.searchQuery.length >= 3) {
                     filteredCars = this.cars.filter(car => {
                         

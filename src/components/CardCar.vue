@@ -84,7 +84,7 @@
                                     </div>
                                     <span class="inf-ano mt-1">{{ car.anoFabricacao }}/{{car.anoModelo}} - {{ formatNumberWithDots(car.km) }} KM<br></span>
                                     <span class="inf-preco mt-1">{{ car.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</span>
-                                    <button  class="botao-detalhes mt-1">Ver Detalhes</button>
+                                    <button  class="botao-detalhes mt-2">Ver Detalhes</button>
                                     <span class="mdi mdi-whatsapp whatsapp-card"></span>
                                 </div>
                          </v-card>
@@ -112,7 +112,7 @@
                                             {{ car.versao }} 
                                         </div>
                                        
-                                          <span class="inf-ano mt-1">{{ car.anoFabricacao }}/{{car.anoModelo}} - {{ formatNumberWithDots(car.km) }} KM<br></span>
+                                          <span class="inf-ano mt-2">{{ car.anoFabricacao }}/{{car.anoModelo}} - {{ formatNumberWithDots(car.km) }} KM<br></span>
                                           <span class="inf-preco mt-1">{{ car.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</span>
                                        
                                           <button  @click="detaheCar(car.modelo,car.id)" class="botao-detalhes mt-1">Ver Detalhes</button>
@@ -144,17 +144,17 @@ export default {
     //  viewModes: ['single', 'grid-2', 'grid-3']
       isMobile: false,
       marcas: [ // Opções de ordenação para o v-autocomplete
-          { nome: 'Toyota', src: '../assets/img/logo-marcas/toyota.png' },
-          { nome: 'Fiat', src: '../assets/img/logo-marcas/fiat.png' },
-          { nome: 'Ford', src: '../assets/img/logo-marcas/ford.png' },
-          { nome: 'Jeep', src: '../assets/img/logo-marcas/jeep.png' },
-          { nome: 'Honda', src: '../assets/img/logo-marcas/honda.png' },
-          { nome: 'Nissan', src: '../assets/img/logo-marcas/nissan.png' },
-          { nome: 'Volkswagen', src: '../assets/img/logo-marcas/volkswagen.png' },
-          { nome: 'Hyundai', src: '../assets/img/logo-marcas/hyundai.png' },
-          { nome: 'Renault', src: '../assets/img/logo-marcas/renault.png' },
-          { nome: 'Mitsubishi', src: '../assets/img/logo-marcas/mitsubishi.png' },
-          { nome: 'Gm - Chevrolet', src: '../assets/img/logo-marcas/chevrolet.png' },
+          { nome: 'Toyota', src: 'assets/img/iconesMarcas/toyota.png' },
+          { nome: 'Fiat', src: 'assets/img/iconesMarcas/fiat.png' },
+          { nome: 'Ford', src: 'assets/img/iconesMarcas/ford.png' },
+          { nome: 'Jeep', src: 'assets/img/iconesMarcas/jeep.png' },
+          { nome: 'Honda', src: 'assets/img/iconesMarcas/honda.png' },
+          { nome: 'Nissan', src: 'assets/img/iconesMarcas/nissan.png' },
+          { nome: 'Volkswagen', src: 'assets/img/iconesMarcas/volkswagen.png' },
+          { nome: 'Hyundai', src: 'assets/img/iconesMarcas/hyundai.png' },
+          { nome: 'Renault', src: 'assets/img/iconesMarcas/renault.png' },
+          { nome: 'Mitsubishi', src: 'assets/img/iconesMarcas/mitsubishi.png' },
+          { nome: 'Gm - Chevrolet', src: 'assets/img/iconesMarcas/chevrolet.png' },
       ],
     };
   },
@@ -177,6 +177,7 @@ export default {
     },
     getMarcaSrc(marca) {
       const marcaEncontrada = this.marcas.find(m => m.nome === marca);
+      const host = window.location.host;
       return marcaEncontrada ? marcaEncontrada.src : null;
     },
     formatNumberWithDots(number) {

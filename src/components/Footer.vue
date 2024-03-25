@@ -13,7 +13,7 @@
               <v-row >
                 <v-col cols="12" class="text-center mb-4">
                   <!-- Insira o logo da sua empresa -->
-                  <img align="left" src="../assets/img/logo.png" alt="Logo da Empresa" class="logo">
+                  <a href="/"><img align="left" src="../assets/img/logo.png" alt="Logo da Empresa" class="logo"></a>
                 </v-col>
                 <v-col cols="12">
                   <p class="address"> <span class="mdi mdi-map-marker icone-fonte"></span> Scia Qd.15 Conj.3 Lote:7 Cidade do Automóvel, BRASÍLIA - DF</p>
@@ -61,7 +61,7 @@
     position: relative;
     width: 100%;
     z-index: 1; /* Garante que a sessão esteja acima do plano de fundo */
-    background-color: #f0f0f0;
+     background-color: rgba(64, 64, 64, 1) !important;;
   }
 
   .map {
@@ -78,6 +78,7 @@
     width: 100%;
     object-fit: cover !important;
     height: 100%;
+    box-shadow: 0 .5rem 1rem rgba(172, 165, 165, 0.15);
   }
   
   .logo {
@@ -89,30 +90,32 @@
   .address,
   .horario,
   .phone {
-    margin-bottom: 10px;
-    color: #000; /* Cor dos ícones */
-    
+    color: #fff; /* Cor dos ícones */
+    display: flex;
+    align-items: center;
+    width: 100%;
   }
 
   .icone-fonte{
-    font-size: 1.3em;
+    font-size: 2em;
     padding-right: 5px;
+    color: #FF4225; /* Cor dos ícones */
   }
   
   .social-icons {
     display: flex;
     align-items: center;
+    color: #FF4225; /* Cor dos ícones */
+    /* margin-top: 10px */
+    font-size: 1.5em;
   }
-  
-  .social-icons v-icon {
-    font-size: 24px;
-    color: #000; /* Cor dos ícones */
-  }
+
   .footer {
     text-align: center;
     border-top: 1px solid #ccc;
     padding: 10px 0;
     padding: 15px;
+    color:#fff
   }
 
   </style>

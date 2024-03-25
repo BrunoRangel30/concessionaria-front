@@ -19,10 +19,10 @@
             </v-col>
             <!-- Título do App -->
             <v-col :cols="3" >
-                <img  align="left" src="../assets/img/logo.png" alt="Logo" class="logo" />
+               <a href="/"> <img  align="left" src="../assets/img/logo.png" alt="Logo" class="logo" /></a>
             </v-col>
             <!-- Ícone à direita, oculto em telas menores -->
-            <!-- Opções de menu, inline do lado esquerdo (apenas em telas maiores) -->
+          
             <v-col class="d-lg-block " :cols="9" style="display: none;"> 
                 <div class="menu-grid">
                   <v-btn class="mr-2"  color="#FFFFFF"  style="background-color: rgba(64, 64, 64, 0.8);" text @click="navigateTo('/')" v-show="!isSmallScreen">
@@ -59,10 +59,10 @@
                   <p><span class="mdi mdi-whatsapp"></span> (61) 98298-2755</p>
               </v-list-item-content>
             </v-list-item>
-          </v-list>
+        </v-list>
             <div class="inf-cel">
               <p class="localizacao"><span class="mdi mdi-map-marker icone-fonte"></span> Scia Qd.15 Conj.3 Lote:7 Cidade do Automóvel, BRASÍLIA - DF</p>
-              <p  class="horario"> <span class="mdi mdi-clock-time-four-outline icone-fonte"></span> Horário de atendimento: Seg a sex - 8h às 18h | Sáb - 8h às 13h</p>
+              <p  class="horario mt-3"> <span class="mdi mdi-clock-time-four-outline icone-fonte"></span> Horário de atendimento: Seg a sex - 8h às 18h | Sáb - 8h às 13h</p>
             </div>
       </v-navigation-drawer>
   </template>
@@ -182,9 +182,9 @@
   }
 
   .inf-cel{
-    bottom: 30px;
+    bottom: 50px;
     position: absolute;
-    padding: 10px;
+    padding: 15px;
   }
 
   .inf-cel p{
@@ -211,14 +211,17 @@
         max-height: 60px !important;
     }
     .menu-rolagem{
-      border-bottom: 1px solid #fff
+      border-bottom: 1px solid #fff;
+      padding-top:20px
     }
-    #menu-drawer{
-        margin-top: 25px !important;
-    }
+  /*  #menu-drawer{
+        margin-top: 55px !important;
+    }*/
     .inf-top{
         display: none;
     }
+    
+    
   }
   /* Estilos específicos para o componente Menu */
      @media (min-width: 600px) {   

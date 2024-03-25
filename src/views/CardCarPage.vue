@@ -27,7 +27,7 @@
             <v-col align="center" cols="12" sm="12" md="6" lg="6" style="padding: 3%;">
               <v-row>
                 <div class="title">
-                  <h2>{{carro.modelo}} {{ carro.anoFabricacao }}</h2>
+                  <h2>{{carro.modelo}} {{ carro.anoModelo }}</h2>
                   <h2 style="margin-left:5%"><label class="preco-titulo" >{{ carro.preco }}</label></h2>
                   <a href="#" class="share-link"  @click="copyUrl">
                       <i class="fas fa-share-alt"></i>
@@ -39,7 +39,7 @@
               </v-row>
               <v-row >
                   <v-col align="center" cols="12" sm="12" md="6" lg="6">
-                    <div class="car-info" style=" box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15)" >
+                    <div class="car-info" style="box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15)" >
                       <h2>Detalhes do Veículo</h2>
                       <div class="car-info-item">
                         <i class="fas fa-car"></i>
@@ -136,8 +136,8 @@
           this.modalOpen = false;
         },
         handleMenuNavHeight(height) {
-          console.log(height,'height')
-            const offest = 40
+         // console.log(height,'height')
+            const offest = 20
             this.menuHeight = height + offest;
         },
         copyUrl() {
@@ -444,7 +444,7 @@
  
   }
 
-  @media screen and (max-width: 550px) {
+  @media screen and (max-width: 750px) {
     .carousel img{
       width: 100%;
     }
@@ -456,6 +456,17 @@
     }
     .box-carrossel .wrapper{
       padding: 0px;
+    }
+    .title{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 5px;
+      margin-top: 5px
+     
     }
   }
   @media screen and (min-width: 1600px) {
