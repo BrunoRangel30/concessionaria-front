@@ -15,30 +15,35 @@
                     clearable
                     ></v-text-field>
                 </v-col>
-                <v-col cols="12" sm="6" md="4" lg="4" :class="{'d-none d-md-block': isMobile}">
+                <v-col cols="12" sm="6" md="4" lg="4" :class="{'d-none d-md-block': isMobile}" >
                     <!-- Filtro por marca -->
-                    <v-autocomplete
+                    <v-select
                     v-model="selectedBrand"
                     :items="brands"
                     label="Filtrar por marca"
-                    outlined
-                    clearable
-                    ></v-autocomplete>
+                    outlined   
+                    clearable   
+                    no-filter
+                   
+                    ></v-select>
                 </v-col>
                 <v-col cols="12" sm="6" md="4" lg="4" :class="{'d-none d-md-block': isMobile}">
-                    <v-autocomplete
+                    <v-select
                         v-model="selectedOrder"
                         :items="orderOptions"
                         label="Ordenar por"
                         item-value="value"
-                    ></v-autocomplete>
+                        outlined
+                        clearable
+                        
+                    ></v-select>
                 </v-col>
                 <!--mobile-->
                 <v-container v-if="isMobile" class="search-containe menu-inicial-cel" id="fixed-menu" fluid>
                     <v-col cols="12" :class="{'ml-auto': isMobile}">
                         <v-row class="conf-col">
                             <v-col cols="10" class="icone-color">
-                                <v-autocomplete
+                                <v-select
                                         v-model="selectedOrder"
                                         :items="orderOptions"
                                         label="Ordenar por"
@@ -48,7 +53,7 @@
                                         v-if="isMobile"
                                         class="custom-font-color"
                                 >
-                                </v-autocomplete>
+                                </v-select>
                             </v-col>
                             <v-col  cols="2" class="d-flex  justify-center align-center" >
                             <!-- Ícone de menu para dispositivos móveis -->
@@ -73,14 +78,14 @@
                         clearable>
                     </v-text-field>
                         <!-- Filtro por marca -->
-                    <v-autocomplete
+                    <v-select
                             v-model="selectedBrand"
                             :items="brands"
                             label="Filtrar por marca"
                             outlined
                             clearable
                             witch='50%'>
-                    </v-autocomplete>
+                    </v-select>
                 </v-col> 
             </v-row>
         </v-container>
@@ -90,9 +95,9 @@
                     <v-btn v-if="single" class="mr-3" @click="setViewMode('single')" icon>
                         <span class="mdi mdi-rectangle"></span>
                     </v-btn>
-                    <v-btn  v-if="grid2" class="mr-3" @click="setViewMode('grid-2')" icon>
+                  <!--  <v-btn  v-if="grid2" class="mr-3" @click="setViewMode('grid-2')" icon>
                         <v-icon>mdi-view-grid</v-icon>
-                    </v-btn>
+                    </v-btn>-->
                     <v-btn  v-if="grid3" class="mr-3" @click="setViewMode('grid-3')" icon>
                         <v-icon>mdi-view-module</v-icon>
                     </v-btn>
@@ -104,15 +109,12 @@
         </v-container>
         <CarCard :cars="filteredCars"  :viewMode="viewMode"></CarCard>
          <!-- Componente de paginação -->
-        <div class="text-center mt-5">
-            <v-pagination
-                    v-model="currentPage"
-                    :length="totalPages"
-                    rounded="circle"
-                    @input="updatePage"
-            >
-            </v-pagination>
-        </div>
+         <v-row v-if="showLoadMoreButton">
+            <v-col cols="12" class="text-center">
+            <v-btn @click="loadMore" class="botao-veja-mais mt-3">Veja Mais</v-btn>
+            </v-col>
+        </v-row>
+        
         <Rodape class="margin-section"/>
     </v-app>
   </template>
@@ -167,28 +169,23 @@
                 result: '',
                 ViewPadrao: 'grid-4',
                 viewAux : 'grid-4',
-                pageSize: 10, // Tamanho da página
-                currentPage: 1, // Página atual
-                totalPage: 0,
+                //totalPage: 0,
                 isMobile: false,
                 showSearchFilters: false,
                 isFixed: false,
                 initialPosition: 0,
+                displayedCars: [], // Array de carros a serem exibidos
+                itemsPerPage: 10, // Número de carros por página
+                currentPage: 1,// Página atual,
+                showLoadMoreButton: ''
+
             };
         },
         computed: {
             filteredCars() {
-                //console.log('fui chmado')
-                let filteredCars = this.cars;
-               // this.viewMode = this.viewMode ;
-                //paginação
-                const pageSize = this.pageSize; // Defina o tamanho da página
-                const currentPage = this.currentPage; // Obtenha a página atual
-                const start = (currentPage - 1) * pageSize;
-                const end = start + pageSize;
-               //Pesquisa
+                let filteredCars = this.displayedCars;
                if (this.searchQuery && this.searchQuery.length >= 3) {
-                    filteredCars = filteredCars.filter(car => {
+                    filteredCars = this.cars.filter(car => {
                         
                         const brandMatch = car.marca.toLowerCase().includes(this.searchQuery.toLowerCase());
                         const modelMatch = car.modelo.toLowerCase().includes(this.searchQuery.toLowerCase());
@@ -197,10 +194,7 @@
                 }
                 // Filtrar por marca
                 if (this.selectedBrand) {
-                    filteredCars = filteredCars.filter(car => car.marca === this.selectedBrand);
-                }
-                if (this.selectedBrand) {
-                    filteredCars = filteredCars.filter(car => car.marca === this.selectedBrand);
+                    filteredCars = this.cars.filter(car => car.marca === this.selectedBrand);
                 }
                 if(this.selectedOrder){
                     const selectedLabel = this.selectedOrder
@@ -242,40 +236,45 @@
                            // return this.cars;
                     }
                 }
-                //atualiza o total de páginas com ou sem fitro
-                this.totalPage = filteredCars.length
-                
                 const qdtMaxCardRow = 4
-                let  paginatedCars
-                //determina o modo de visualizaco depedendo da quantidade de cards
                 if(filteredCars.length != 0 && filteredCars.length <= qdtMaxCardRow){
                    // this.viewAux =  this.viewMode
-                    paginatedCars =  filteredCars
+                    //paginatedCars =  filteredCars
                     this.viewMode = 'single'
                     this.single = false
                     this.grid2= false
                     this.grid3= false
                     this.grid4= false
+                    this.showLoadMoreButton = false
                 }else{
-                    paginatedCars = filteredCars.slice(start, end)
+                    //paginatedCars = filteredCars
                     this.viewMode =  this.viewAux
                    // this.checkScreenSize()
                     this.single = true
                     this.grid2= true
                     this.grid3= true
                     this.grid4= true
+                    this.showLoadMoreButton = this.displayedCars.length < this.cars.length
                 }
-                return paginatedCars;
+                return filteredCars
             },
+
             totalPages() {
                 // Calcular o número total de páginas com base no tamanho da página e no número de carros
                 return Math.ceil(this.totalPage / this.pageSize);
             },
+           /* showLoadMoreButton() {
+                this.showLoadMoreButton = this.displayedCars.length < this.cars.length;
+                return  this.showLoadMoreButton;
+            }*/
            
         },
         methods: {
             toggleSearchFilters() {
                 this.showSearchFilters = !this.showSearchFilters;
+            },
+            showLoadMoreButton2() {
+                return this.displayedCars.length < this.cars.length;
             },
             setViewMode(mode) {
                  this.viewMode = mode;
@@ -451,14 +450,22 @@
                     menu.classList.remove('fixed-menu');
                 }
             },
+            loadMore() {
+                const startIndex = (this.currentPage - 1) * this.itemsPerPage; // Corrigindo o cálculo do índice inicial
+                const endIndex = this.currentPage * this.itemsPerPage;
+                this.displayedCars = [...this.displayedCars, ...this.cars.slice(startIndex, endIndex)];
+                this.currentPage++;
+            }
         },
         mounted() {
             axios.get('https://www.gois.inf.br/easycar/feed/estoque_filter.php?loja=8103')
             .then(response => {
                 this.cars = response.data;
+               // console.log(this.cars.length,'length')
                 this.brands = [...new Set(this.cars.map(car => car.marca))];
                 this.models = [...new Set(this.cars.map(car => car.modelo))];
-                
+                this.loadMore()
+               
             })
             .catch(error => {
                 console.error('Erro ao buscar dados do servidor:', error);
@@ -466,6 +473,7 @@
             this.checkScreenSize()
             window.addEventListener('resize', this.checkScreenSize); // Ouve o evento resize
              window.addEventListener('scroll', this.handleScroll);
+
             
            // this.$root.$on('navigate-to', this.scrollToElement);
         },
@@ -544,7 +552,22 @@
     .icone-color  .v-field__outline{
         color: #FFFF !important; 
     }
-
+    .botao-veja-mais {
+        background-color: #FF4225; /* Cor de fundo */
+        border: none; /* Sem borda */
+        color: white; /* Cor do texto */
+        padding: 10px 20px; /* Espaçamento interno */
+        text-align: center; /* Alinhamento de texto */
+        text-decoration: none; /* Sem decoração de texto */
+        display: inline-block; /* Exibir como bloco */
+        font-size: 16px; /* Tamanho da fonte */
+        border-radius: 8px; /* Borda arredondada */
+        transition: background-color 0.3s; /* Transição suave de cor de fundo */
+    }
+    .desativar-campo {
+        pointer-events: none !important;
+       
+    }
    /* .menu-inicial-cel   .v-overlay-container .v-listem {
         font-size: 9px 
         border: 2px solid red;

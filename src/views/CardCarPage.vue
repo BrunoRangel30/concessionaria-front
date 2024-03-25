@@ -28,13 +28,13 @@
               <v-row>
                 <div class="title">
                   <h2>{{carro.modelo}} {{ carro.anoFabricacao }}</h2>
-                  <h2 style="margin-left:5%">R$<label class="preco-titulo" >{{ carro.valor }}</label></h2>
+                  <h2 style="margin-left:5%"><label class="preco-titulo" >{{ carro.preco }}</label></h2>
                   <a href="#" class="share-link"  @click="copyUrl">
                       <i class="fas fa-share-alt"></i>
                   </a>
                   <div v-if="showMessage" class="success-message">
                           URL copiada para a área de transferência!
-                  </div>
+                </div>
                 </div>
               </v-row>
               <v-row >
@@ -424,10 +424,11 @@
   display: block
 }
 .breadcrumbs {
-  font-size: 18px;
+  font-size: 23px;
   text-align: center !important; /* Centralizar horizontalmente */
   background-image: linear-gradient(to left, #ffffff, #f8f9fa); /* Adicionar um degradê */
-  padding-bottom: 10px; /* Espaçamento na parte inferior */
+  padding-bottom: 20px; /* Espaçamento na parte inferior */
+  font-weight: 700 ;
 }
 
 

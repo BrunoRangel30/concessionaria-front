@@ -17,16 +17,17 @@
                         <v-col :cols="isMobile ? '12' : '4'"  class="info-card" >
                             <!-- Conteúdo do card -->
                             <h2 class="info-modelo">{{ car.modelo }}</h2>
-
-                            <h3 class="info-marca">{{ car.marca }}</h3>
-                            <p>
-                              <!-- Outras informações do carro -->
-                              <span class="inf-ano">{{ car.anoFabricacao }}<br></span>
-                              {{ car.versao }}<br>
-                              <span class="inf-preco">{{ car.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</span>
-                            </p>
+                            <div class="box-marca-versao mt-1">
+                                <div class="box-imagem">
+                                    <img v-if="getMarcaSrc(car.marca)" :src="getMarcaSrc(car.marca)" class="custom-img-logo" />
+                                </div>
+                                {{ car.versao }} 
+                            </div>
+                            <!-- Outras informações do carro -->
+                            <span class="inf-ano mt-1">{{ car.anoFabricacao }}/{{car.anoModelo}} - {{ formatNumberWithDots(car.km) }} KM<br></span>
+                            <span class="inf-preco mt-1">{{ car.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</span>
                             <button  @click="detaheCar(car.modelo,car.id)" class="botao-detalhes mt-1">Ver Detalhes</button>
-                            <span class="mdi mdi-whatsapp whatsapp-card-single"></span>
+                            <span class="mdi mdi-whatsapp whatsapp-card-single mt-1"></span>
                         </v-col>
                       </v-row>
                   </v-card>
@@ -35,7 +36,7 @@
           </v-row>
         </template>
         <!--Grid 2-->
-        <template v-if="viewMode === 'grid-2'">
+      <!--  <template v-if="viewMode === 'grid-2'">
             <v-row style="box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);" class="mt-3">
                 <template v-for="car in cars" :key="car.id">
                     <v-col  :cols="isMobile ? '12' : '6'" class="mt-3" xs="12" sm="6" md="6" lg="6">
@@ -45,10 +46,14 @@
                                </div>
                                 <div class="info-card-2 card-center">
                                     <h2 class="info-modelo">{{ car.modelo }}</h2>
-                                    <h3 class="info-marca">{{ car.marca }}</h3>
+                                    <div class="box-marca-versao">
+                                          <div class="box-imagem">
+                                              <img v-if="getMarcaSrc(car.marca)" :src="getMarcaSrc(car.marca)" class="custom-img-logo" />
+                                          </div>
+                                          {{ car.versao }} 
+                                    </div>
                                     <p>
-                                      <span class="inf-ano">Ano: {{ car.anoFabricacao }}<br></span>
-                                      {{ car.versao }}<br>
+                                      <span class="inf-ano">{{ car.anoFabricacao }}/{{car.anoModelo}} - {{ formatNumberWithDots(car.km) }} KM<br></span>
                                       <span class="inf-preco">{{ car.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</span>
                                     </p>
                                     <button  class="botao-detalhes mt-1">Ver Detalhes</button>
@@ -58,10 +63,11 @@
                       </v-col>
                 </template>
              </v-row>
-       </template>
+       </template>-->
       <!--Grid 3-->
       <template v-if="viewMode === 'grid-3'">
-            <v-row style="box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);" >
+          <v-container fluid>
+            <v-row style="box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);" class="padding-col" >
                 <template v-for="car in cars" :key="car.id">
                     <v-col :cols="isMobile ? '12' : '4'"  xs="12" sm="6" md="4" lg="4" class="mt-3">
                           <v-card class="card-center" style="box-shadow: none">
@@ -70,12 +76,14 @@
                                </div>
                                 <div class="info-card-3 card-center">
                                     <h2 class="info-modelo">{{ car.modelo }}</h2>
-                                    <h3 class="info-marca">{{ car.marca }}</h3>
-                                    <p>
-                                      <span class="inf-ano">Ano: {{ car.anoFabricacao }}<br></span>
-                                      {{ car.versao }}<br>
-                                      <span class="inf-preco">{{ car.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</span>
-                                    </p>
+                                    <div class="box-marca-versao mt-1">
+                                          <div class="box-imagem">
+                                              <img v-if="getMarcaSrc(car.marca)" :src="getMarcaSrc(car.marca)" class="custom-img-logo" />
+                                          </div>
+                                          {{ car.versao }} 
+                                    </div>
+                                    <span class="inf-ano mt-1">{{ car.anoFabricacao }}/{{car.anoModelo}} - {{ formatNumberWithDots(car.km) }} KM<br></span>
+                                    <span class="inf-preco mt-1">{{ car.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</span>
                                     <button  class="botao-detalhes mt-1">Ver Detalhes</button>
                                     <span class="mdi mdi-whatsapp whatsapp-card"></span>
                                 </div>
@@ -83,35 +91,39 @@
                       </v-col>
                 </template>
              </v-row>
+          </v-container>
        </template>
- 
-  <!--Grid 4-->
-   <v-container fluid>
-    <template v-if="viewMode === 'grid-4'">
-            <v-row style="box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);">
-                <template v-for="car in cars" :key="car.id">
-                    <v-col :cols="isMobile ? '12' : '3'" xs="12" sm="6" md="4" lg="3">
-                         <v-card class="card-center" style="box-shadow: none">
-                              <div class="custom-div-4 card-center" >
-                                  <img :src="car.fotos.foto[0]" class="custom-img" />
-                               </div>
-                                <div class="info-card-4 card-center">
-                                    <h2 class="info-modelo">{{ car.modelo }}</h2>
-                                    <h3 class="info-marca">{{ car.marca }}</h3>
-                                    <p>
-                                      <span class="inf-ano">Ano: {{ car.anoFabricacao }}<br></span>
-                                      {{ car.versao }}<br>
-                                      <span class="inf-preco">{{ car.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</span>
-                                    </p>
-                                      <button  @click="detaheCar(car.modelo,car.id)" class="botao-detalhes mt-1">Ver Detalhes</button>
-                                      <span class="mdi mdi-whatsapp whatsapp-card"></span>
-                                </div>
-                         </v-card>
-                      </v-col>
-                </template>
-             </v-row>
-       </template>
-   </v-container>
+      <!--Grid 4-->
+      <v-container fluid>
+        <template v-if="viewMode === 'grid-4'">
+                <v-row style="box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);" class="padding-col">
+                    <template v-for="car in cars" :key="car.id" >
+                        <v-col :cols="isMobile ? '12' : '3'" xs="12" sm="6" md="4" lg="3">
+                            <v-card class="card-center" style="box-shadow: none">
+                                  <div class="custom-div-4 card-center" >
+                                      <img :src="car.fotos.foto[0]" class="custom-img" />
+                                  </div>
+                                    <div class="info-card-4 card-center">
+                                        <h2 class="info-modelo">{{ car.modelo }}</h2>
+                                        <div class="box-marca-versao mt-1">
+                                            <div class="box-imagem">
+                                              <img v-if="getMarcaSrc(car.marca)" :src="getMarcaSrc(car.marca)" class="custom-img-logo" />
+                                            </div>
+                                            {{ car.versao }} 
+                                        </div>
+                                       
+                                          <span class="inf-ano mt-1">{{ car.anoFabricacao }}/{{car.anoModelo}} - {{ formatNumberWithDots(car.km) }} KM<br></span>
+                                          <span class="inf-preco mt-1">{{ car.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</span>
+                                       
+                                          <button  @click="detaheCar(car.modelo,car.id)" class="botao-detalhes mt-1">Ver Detalhes</button>
+                                          <span class="mdi mdi-whatsapp whatsapp-card"></span>
+                                    </div>
+                            </v-card>
+                          </v-col>
+                    </template>
+                </v-row>
+          </template>
+      </v-container>
 </template>
 
 <script>
@@ -130,7 +142,20 @@ export default {
     return {
     //  viewMode: 'single', // Modo de visualização padrão
     //  viewModes: ['single', 'grid-2', 'grid-3']
-      isMobile: false
+      isMobile: false,
+      marcas: [ // Opções de ordenação para o v-autocomplete
+          { nome: 'Toyota', src: '../assets/img/logo-marcas/toyota.png' },
+          { nome: 'Fiat', src: '../assets/img/logo-marcas/fiat.png' },
+          { nome: 'Ford', src: '../assets/img/logo-marcas/ford.png' },
+          { nome: 'Jeep', src: '../assets/img/logo-marcas/jeep.png' },
+          { nome: 'Honda', src: '../assets/img/logo-marcas/honda.png' },
+          { nome: 'Nissan', src: '../assets/img/logo-marcas/nissan.png' },
+          { nome: 'Volkswagen', src: '../assets/img/logo-marcas/volkswagen.png' },
+          { nome: 'Hyundai', src: '../assets/img/logo-marcas/hyundai.png' },
+          { nome: 'Renault', src: '../assets/img/logo-marcas/renault.png' },
+          { nome: 'Mitsubishi', src: '../assets/img/logo-marcas/mitsubishi.png' },
+          { nome: 'Gm - Chevrolet', src: '../assets/img/logo-marcas/chevrolet.png' },
+      ],
     };
   },
   computed: {
@@ -149,6 +174,13 @@ export default {
       const textoFormatado = this.substituirEspacosPorHifens(marca);
       console.log(textoFormatado,'textoFormatado')
       this.$router.push({ name: 'carro', params: { modelo: textoFormatado , id:id} });
+    },
+    getMarcaSrc(marca) {
+      const marcaEncontrada = this.marcas.find(m => m.nome === marca);
+      return marcaEncontrada ? marcaEncontrada.src : null;
+    },
+    formatNumberWithDots(number) {
+      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
   },
   mounted() {
@@ -171,6 +203,17 @@ export default {
   margin-left:auto;
   margin-right: auto;
 }
+.padding-col .v-col-12{
+  padding: 5px !important;
+}
+.padding-col .v-col-4{
+  padding: 3px !important;
+  
+}
+.padding-col .v-col-3{
+  padding: 3px !important;
+  
+}
 /*card single*/
 .custom-div {
     width: 80%;
@@ -185,13 +228,13 @@ export default {
     position: relative;
 }
 .custom-div-3{
-    width: 80%;
+    width: 90%;
     height: 290px; 
     /*border: 2px solid yellow;*/
     position: relative;
 }
 .custom-div-4{
-    width: 90%;
+    width: 95%;
     height: 290px; 
     /*border: 2px solid yellow;*/
     position: relative;
@@ -226,7 +269,7 @@ export default {
   color: #ffff;
 }
 .info-card-2{
-  height: 210px;
+  height: 230px;
   background: rgba(64, 64, 64, 0.8);
   width: 60%;
   display: flex;
@@ -239,20 +282,7 @@ export default {
   border-radius: 0px 0px 10px 10px;
 }
 .info-card-3{
-  height: 212px;
-  background: rgba(64, 64, 64, 0.8);
-  width: 80%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center ;
-  align-items:center ;
-  text-align:center;
-  color: #ffff;
-  position: relative;
-  border-radius: 0px 0px 10px 10px;
-}
-.info-card-4{
-  height: 212px;
+  height: 230px;
   background: rgba(64, 64, 64, 0.8);
   width: 90%;
   display: flex;
@@ -264,11 +294,29 @@ export default {
   position: relative;
   border-radius: 0px 0px 10px 10px;
 }
+.info-card-4{
+  height: 240px;
+  background: rgba(64, 64, 64, 0.8);
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center ;
+  align-items:center ;
+  text-align:center;
+  color: #ffff;
+  position: relative;
+  border-radius: 0px 0px 10px 10px;
+  border:  10px 10px 10px 10px solid #000;
+}
+.info-modelo{
+    font-size: 23px ;
+  }
 .inf-preco{
   font-size: 22px ;
   font-weight: 700 ;
-  color: #FFFF;
+  color: #FF4219;
 }
+
 .botao-detalhes {
   background-color: #FF4225; /* Cor de fundo */
   border: none; /* Sem borda */
@@ -288,11 +336,38 @@ export default {
 .whatsapp-card{
   font-size: 2em;
   position: absolute;
-  bottom: 0px;
+  bottom: 20px;
   right: 10px;
 }
 .whatsapp-card-single{
   font-size: 2em;
+}
+.box-marca-versao{
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px; /* Borda arredondada */
+}
+
+.box-imagem{
+  width: 40px;
+  height: 40px;
+  position: relative;
+  margin-right: 8px;
+}
+.custom-img-logo{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top:0;
+  right: 0;
+  bottom: 0;
+  object-fit: contain;
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .30);
+  border-radius: 2px; /* Borda arredondada */
 }
 
 
@@ -303,40 +378,57 @@ export default {
       width: 100%;
       padding: 10px;
    }*/
-   .custom-img {
+  .custom-img {
     border-radius: 0px 0px 0px 0px;
   }
-   .custom-div{
-       width: 100% ;
-       height: 50vh; 
-    }
-   .custom-div-2{
+  .custom-div{
     width: 100% ;
-   }
-   .info-card{
+    height: 50vh; 
+  }
+  .custom-div-2{
+    width: 100% ;
+  }
+  .custom-div-4{
+    width: 100% ;
+  }
+  .info-card-4{
+    width: 100% ;
+  }
+  .info-card{
      padding: 20px !important;
-   }
-   .whatsapp-card-single{
+     border-radius: 0px 0px 10px 10px;
+  }
+  .whatsapp-card-single{
     margin-top: 10px;
+  }
+  .whatsapp-card{
+    bottom: 15px;
   }
   .botao-detalhes{
     margin-top: 10px;
   }
-   .info-card-2{
+  .info-card-2{
     width: 100%;
+  }
+  .inf-preco{
+    font-size: 18px;
+  }
+  .cifrao{
+    font-size: 18px ;
+  }
+  .info-modelo{
+    font-size: 18px ;
+  }
+  .info-marca{
+    font-size: 16px ;
+  }
+  .inf-ano{
+    font-size: 16px ;
+  }
+  .custom-img-single {
+    border-radius: 10px 0px 0px 0px;
    }
-    .inf-preco{
-      font-size: 16px ;
-   }
-    .info-modelo{
-      font-size: 18px ;
-    }
-    .info-marca{
-      font-size: 16px ;
-    }
-    .inf-ano{
-      font-size: 16px ;
-    }
+   
 }
 
 /*monitores*/
@@ -352,18 +444,37 @@ export default {
     width: 40%;
   }
   .custom-div-3{
-    width: 55%;
+    width: 98%;
+    height: 50vh; 
   }
   .info-card-3{
-    width: 55%;
+    width: 98%;
+    height: 300px; 
   }
   .custom-div-4{
-    width: 70%;
+    width: 98%;
+    height: 40vh; 
   }
   .info-card-4{
-    width: 70%;
+    width: 98%;
+    height: 300px; 
   }
-  
+  .inf-preco{
+    font-size: 25px;
+  }
+  .info-modelo{
+    font-size: 25px ;
+  }
+  .info-marca{
+    font-size: 20px ;
+  }
+  .inf-ano{
+    font-size: 20px ;
+  }
+  .whatsapp-card{
+    bottom: 45px;
+    right: 30px;
+  }
   
 }
 
